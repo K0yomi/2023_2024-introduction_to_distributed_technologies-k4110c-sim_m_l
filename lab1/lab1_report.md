@@ -13,8 +13,8 @@ Date of finished: 30.11.2023
 Ознакомиться с инструментами Minikube и Docker, развернуть свой первый "под".
 ## Ход работы
 Установим Docker и Minikube на рабочий компьютер.  
-![Docker_is_installed](lab1/img/Docker_is_installed.png)  
-![Docker_desktop_is_installed_and_set](lab1/img/Docker_desktop_is_installed_and_set.png)
+![Docker_is_installed](img/Docker_is_installed.png)  
+![Docker_desktop_is_installed_and_set](img/Docker_desktop_is_installed_and_set.png)
 
 `Minikube` - это инструмент, который позволяет создавать локальные кластеры Kubernetes на рабочей станции для разработки, тестирования и отладки приложений перед их развертыванием в более крупных кластерах. `Кластер Kubernetes` позволяет эффективно управлять, масштабировать и обеспечивать отказоустойчивость контейнеризированных приложений. 
 
