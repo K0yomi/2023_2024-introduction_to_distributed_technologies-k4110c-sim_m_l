@@ -19,32 +19,32 @@ Date of finished: 30.11.2023
 `Minikube` - это инструмент, который позволяет создавать локальные кластеры Kubernetes на рабочей станции для разработки, тестирования и отладки приложений перед их развертыванием в более крупных кластерах. `Кластер Kubernetes` позволяет эффективно управлять, масштабировать и обеспечивать отказоустойчивость контейнеризированных приложений. 
 
 `minikube start` - запуск локального кластера Kubernetes с помощью инструмента Minikube.  
-![minicube_start](lab1/img/minicube_start.png)
+![minicube_start](img/minicube_start.png)
 
 Поскольку minikube не запускается, посетим страницу драйверов, чтобы получить помощь в настройке совместимого контейнера или диспетчера виртуальных машин.  
 `minikube start --driver=docker` - установим драйвер Docker.  
 `minikube config set driver docker` - делаем Docker драйвером по умолчанию.  
-![Установили_драйвера_для_миникуба](lab1/img/Установили_драйвера_для_миникуба.png)
+![Установили_драйвера_для_миникуба](img/Установили_драйвера_для_миникуба.png)
 
 `minikube start` - запускаем minikube cluster.
-![minikube_start(ed)](lab1/img/minikube_start(ed).png)  
+![minikube_start(ed)](img/minikube_start(ed).png)  
 
 После запуска minikube cluster мы можем взаимодействовать с k8s используя команду:
 `minikube kubectl`  
-![minikube_kubectl.png](lab1/img/minikube_kubectl.png)
+![minikube_kubectl.png](img/minikube_kubectl.png)
 
 Для удобства использования создадим алиас `alias kubectl="minikube kubectl --"`  
 
 Для первого манифеста был выбран образ HashiCorp Vault. Его следует установить. Но поскольку команда `docker pull vault` не работает, напишем `docker pull vault:1.8.3`.
-![docker_pull_vault](lab1/img/docker_pull_vault.png)
+![docker_pull_vault](img/docker_pull_vault.png)
 
 Напишем манифест для развертывания "пода" HashiCorp Vault, который можно найти в файле manifesto.yaml. После чего создадим сервис для доступа к контейнеру, а также прокинем внутрь порт 8200.
 `kubectl apply -f manifesto.yaml` - эта команда применяет конфигурацию, определенную в файле manifesto.yaml, к нашему Kubernetes-кластеру. Обычно в таких файлах определяются ресурсы, такие как поды, службы, развертывания и т. д.
-![manifesto1](lab1/img/manifesto1.png)
+![manifesto1](img/manifesto1.png)
 `minikube kubectl -- expose pod vault --type=NodePort --port=8200` - эта команда используется для создания службы (Service) с именем "vault" для пода с именем "vault". Эта служба будет доступна снаружи кластера через тип NodePort и проксирует трафик на порт 8200 внутри контейнера.
-![manifesto2](lab1/img/manifesto2.png)
+![manifesto2](img/manifesto2.png)
 `minikube kubectl -- port-forward service/vault 8200:8200` - эта команда настраивает прямое соединение (port-forward) между локальным компьютером и службой "vault" в кластере. Таким образом, любые запросы, отправленные на локальный порт 8200, будут перенаправлены на порт 8200 службы "vault" внутри кластера.
-![manifesto3](lab1/img/manifesto3.png)
+![manifesto3](img/manifesto3.png)
 
 В контексте Kubernetes, `кластер` - это набор физических или виртуальных компьютеров, которые работают вместе для выполнения контейнеризированных приложений и сервисов. Кластер Kubernetes состоит из нескольких узлов (nodes), которые выполняют различные роли в системе.
 
@@ -55,7 +55,7 @@ Date of finished: 30.11.2023
 + Службы (Services): Службы предоставляют постоянное сетевое точку доступа к одному или нескольким подам, даже если они могут быть переназначены в разные узлы кластера.
 
 После выполнения команд был получен доступ к Vault UI по ссылке http://localhost:8200. После перехода по ней у нас открывается следующий интерфейс:
-![VaultUI](lab1/img/VaultUI.png)
+![VaultUI](img/VaultUI.png)
 
 Токен от Vault находится в логах, найдем его, используя следующую команду:
 `minikube kubectl -- logs vault` - команда, используемая для просмотра журналов (логов) контейнера с именем "vault" в локальном кластере Kubernetes, управляемом инструментом Minikube, где:
@@ -63,7 +63,7 @@ Date of finished: 30.11.2023
 + `kubectl` - Это официальный клиент командной строки Kubernetes для взаимодействия с кластерами.
 + `-- logs vault` - Эта часть команды указывает, что мы хотим просмотреть логи контейнера с именем "vault" в нашем кластере.  
 Таким образом, эта команда извлекает логи из контейнера "vault" в локальном Kubernetes-кластере с помощью Minikube. Логи часто предоставляют информацию о работе контейнера, такую как сообщения о состоянии, ошибки, и другую отладочную информацию, которая может быть полезной при разработке и отладке приложений.
-![logs](lab1/img/logs.png)
+![logs](img/logs.png)
 ```console                         
 Couldn't start vault with IPC_LOCK. Disabling IPC_LOCK, please use --privileged or --cap-add IPC_LOCK
 ==> Vault server configuration:
@@ -97,7 +97,7 @@ Development mode should NOT be used in production installations!
 ```
 
 Вводим в соответствующее поле Root Token: s.kPSTjmlFBjfGhdhljB21ihiM и переходим по сайту далее.
-![finally](lab1/img/finally.png)
+![finally](img/finally.png)
 
 ##Вопросы 
 1. Что сейчас произошло и что сделали команды указанные ранее? (Создание "пода" на основе манифеста и образа HashiCorp Vault, создание сервиса и соотнесение портов)
@@ -105,4 +105,4 @@ Development mode should NOT be used in production installations!
 Подробные ответы указаны в самом отчете.
 
 ##Схема организации контейнеров и сервисов
-![scheme](lab1/img/scheme.png)
+![scheme](img/scheme.png)
