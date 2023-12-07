@@ -25,8 +25,8 @@ Date of finished: 7.12.2023
 В манифесте указываем образ для контейнера, количество реплик - 2, передаем значения для переменных и значение порта контейнера. После создания проверяем наличие деплоймента и двух реплик контейнера.  
 `kubectl apply -f frontend-deployment.yaml`
 ![pull_2lab](img/pull_2lab.png)  <br>
-
-Содержание файла rontend-deployment.yaml:
+![frontend-deployment](img/frontend-deployment.png) <br>
+Содержание файла frontend-deployment.yaml:
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -55,7 +55,6 @@ spec:
           - name: REACT_APP_COMPANY_NAME
             value: ITMO University
 ```
-![frontend-deployment](img/frontend-deployment.png) <br>
 
 ### Создание Service
 Для создания service напишем манифест в файле `frontend-service.yaml`, прокинем порт наружу.  
@@ -63,6 +62,7 @@ spec:
 kubectl apply -f frontend-service.yaml
 kubectl port-forward services/frontend 3000:3000
 ```
+![frontend-service](img/frontend-service.png)<br>
 
 Содержание файла frontend-service.yaml:
 ```yaml
@@ -78,16 +78,15 @@ spec:
   - port: 3000
     targetPort: 3000
 ```
-![frontend-service](img/frontend-service.png)<br>
 
 ### Приложение
 При подключении к приложении по адресу `127.0.0.1:3000` мы увидим следующую страницу:
 ![reactapp](img/reactapp.png) <br>
 
-Параметры не изменяются при обновлении страницы, потому что команда берет только одну реплику и придерживается её.  
-Получим список подов, запросим логи из них и получим логи от веб-сервисов:
+Переменные соответствуют тем, которые были переданы в коде.  
+Запущены две реплики, в браузере отображается информация одной из них, поэтому параметры не изменяются при обновлении страницы.  
+Получим список подов, запросим логи из них:
 ![logs](img/logs.png)
 
 ## Схема
-
-![scheme](img/schema.png)
+![scheme](img/scheme.png)
