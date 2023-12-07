@@ -24,8 +24,8 @@ Date of finished: 7.12.2023
 Для создания deployment напишем манифест в файле `frontend-deployment.yaml`.  
 В манифесте указываем образ для контейнера, количество реплик - 2, передаем значения для переменных и значение порта контейнера. После создания проверяем наличие деплоймента и двух реплик контейнера.  
 `kubectl apply -f frontend-deployment.yaml`
-![pull_2lab](lab2/img/pull_2lab.png)  
-![frontend-deployment](lab2/img/frontend-deployment.png)
+![pull_2lab](img/pull_2lab.png)  <br>
+![frontend-deployment](img/frontend-deployment.png)
 
 ### Создание Service
 Для создания service напишем манифест в файле `frontend-service.yaml`, прокинем порт наружу.  
@@ -33,15 +33,15 @@ Date of finished: 7.12.2023
 kubectl apply -f frontend-service.yaml
 kubectl port-forward services/frontend 3000:3000
 ```
-![frontend-service](lab2/img/frontend-service.png)
+![frontend-service](img/frontend-service.png)
 
 ### Приложение
 При подключении к приложении по адресу `127.0.0.1:3000` мы увидим следующую страницу:
-![reactapp](lab2/img/reactapp.png)
+![reactapp](img/reactapp.png)
 
 Параметры не изменяются при обновлении страницы, потому что команда берет только одну реплику и придерживается её.  
 Получим список подов, запросим логи из них и получим логи от веб-сервисов:
-![logs](lab2/img/logs.png)
+![logs](img/logs.png)
 
 ## Схема
 
