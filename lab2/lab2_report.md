@@ -58,10 +58,7 @@ spec:
 
 ### Создание Service
 Для создания service напишем манифест в файле `frontend-service.yaml`, прокинем порт наружу.  
-```console
-kubectl apply -f frontend-service.yaml
-kubectl port-forward services/frontend 3000:3000
-```
+`kubectl apply -f frontend-service.yaml`
 ![frontend-service](img/frontend-service.png)<br>
 
 Содержание файла frontend-service.yaml:
