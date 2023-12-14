@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: lab3
+  name: reactapp
+data: 
+  REACT_APP_USERNAME: K0yomi
+  REACT_APP_COMPANY_NAME: ITMO University
