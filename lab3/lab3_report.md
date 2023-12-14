@@ -28,7 +28,7 @@ data:
   REACT_APP_COMPANY_NAME: ITMO University
 ```
 `kubectl apply -f config_map.yaml` <br>
-После создания ConfigMap его можно использовать в поде, добавив ссылку на него в спецификацию пода, когда значения из ConfigMap со своими ключами используются в качестве переменных окружения label 1 и label 2 внутри контейнера пода, где label 1 и label 2 - примеры значения ключей.
+После создания ConfigMap его можно использовать в поде, добавив ссылку на него в спецификацию пода, когда значения из ConfigMap со своими ключами используются в качестве переменных окружения label1 и label2 внутри контейнера пода, где label1 и label2 - примеры значения ключей.
 
 
 ### Создадим replicaSet с 2 репликами контейнера ifilyaninitmo/itdt-contained-frontend:master и используя ранее созданный configMap передадим переменные REACT_APP_USERNAME, REACT_APP_COMPANY_NAME.
@@ -121,7 +121,7 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout tls.key -out tls.crt
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ingress-name
+  name: ingress-lab3
 spec:
   tls:
   - hosts:
@@ -149,3 +149,4 @@ spec:
 ![works](img/app_works.png) <br>
 
 ## Схема организации контейеров и сервисов
+![scheme](img/scheme3.png)
