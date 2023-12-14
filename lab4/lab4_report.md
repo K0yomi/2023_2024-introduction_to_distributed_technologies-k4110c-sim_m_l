@@ -17,17 +17,17 @@ Date of finished: 14.12.2023
 ## Ход работы
 + При запуске minikube установим плагин CNI=calico и режим работы Multi-Node Clusters одновеременно, в рамках данной лабораторной работы развернем 2 ноды.
 `minikube start --network-plugin=cni --cni=calico --nodes 2 -p multinode-demo` <br>
-![task1](lab4/img/1task.png) <br>
+![task1](img/1task.png) <br>
 
 + Проверим работу CNI плагина Calico и количество нод.
 ```console
 kubectl get nodes
 kubectl get pods -l k8s-app=calico-node -A
 ```
-![task2](lab4/img/task2.png) <br>
+![task2](img/task2.png) <br>
 
 + Для проверки работы Calico мы попробуем одну из функций под названием IPAM Plugin. Для проверки режима IPAM необходимо для запущеных ранее нод указать label по признаку стойки или географического расположения (на наш выбор).
-![task3](lab4/img/task3.png) <br>
+![task3](img/task3.png) <br>
 ```console
 kubectl label nodes multinode-demo direction=north  
 kubectl label nodes multinode-demo-m02 direction=south
