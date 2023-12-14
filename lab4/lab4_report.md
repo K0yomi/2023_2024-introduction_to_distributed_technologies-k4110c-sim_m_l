@@ -34,9 +34,10 @@ kubectl label nodes multinode-demo-m02 direction=south
 kubectl get nodes -L direction --show-labels
 ```
 
-+ После этого разработаем манифест для Calico который бы на основе ранее указанных меток назначал бы IP адреса "подам" исходя из пулов IP адресов которые мы указали в манифесте.
++ После этого разработаем манифест для Calico который бы на основе ранее указанных меток назначал бы IP адреса "подам" исходя из пулов IP адресов которые мы указали в манифесте.<br>
 Установим `calicoctl`. <br>
 ![calicoctl_defeated](img/calicoctl_defeated.jpg) <br>
+
 
 ```yaml
 apiVersion: projectcalico.org/v3
@@ -66,7 +67,7 @@ kubectl calico delete ippools default-ipv4-ippool --allow-version-mismatch
 kubectl calico create -f calico.yml --allow-version-mismatch
 kubectl calico get ippool --allow-version-mismatch
 ```
-![calicoctl_defeated](img/calicoctl_defeated.jpg) <br>
+![calico_defeated](img/calico_defeated.png) <br>
 
 +  Создадим deployment с 2 репликами контейнера ifilyaninitmo/itdt-contained-frontend:master и передадим переменные в эти реплики: REACT_APP_USERNAME, REACT_APP_COMPANY_NAME. 
 ```yaml
@@ -130,3 +131,4 @@ spec:
 
 
 + Схема организации контейеров и сервисов <br>
+![scheme](img/scheme4.png) <br>
