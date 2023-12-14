@@ -15,7 +15,7 @@ Date of finished: 14.12.2023
 ## Ход работы
 ### Cоздадим configMap с переменными: REACT_APP_USERNAME, REACT_APP_COMPANY_NAME.
 `ConfigMap` в контексте Kubernetes - это ресурс, который используется для хранения конфигурационных данных в виде пар ключ-значение. Эти данные могут быть использованы контейнерами внутри подов (Pods), чтобы получить конфигурационные параметры, переменные окружения, файлы конфигурации и т. д. <br>
-`ConfigMap` позволяет абстрагировать конфигурацию от приложения и хранить её централизованно в виде объекта Kubernetes. Это упрощает управление конфигурацией, так как изменения могут быть внесены в ConfigMap без изменения самого контейнера или пода. <br>
+ConfigMap позволяет абстрагировать конфигурацию от приложения и хранить её централизованно в виде объекта Kubernetes. Это упрощает управление конфигурацией, так как изменения могут быть внесены в ConfigMap без изменения самого контейнера или пода. <br>
 Получим файл `config_map.yaml`: <br>
 ```yaml
 apiVersion: v1
@@ -31,8 +31,16 @@ data:
 После создания ConfigMap его можно использовать в поде, добавив ссылку на него в спецификацию пода, когда значения из ConfigMap со своими ключами используются в качестве переменных окружения label 1 и label 2 внутри контейнера пода, где label 1 и label 2 - примеры значения ключей.
 
 
-### Создадим replicaSet с 2 репликами контейнера ifilyaninitmo/itdt-contained-frontend:master и используя ранее созданный configMap передадим переменные REACT_APP_USERNAME, REACT_APP_COMPANY_NAME, получаем следующий файл `replica_set.yaml`: 
+### Создадим replicaSet с 2 репликами контейнера ifilyaninitmo/itdt-contained-frontend:master и используя ранее созданный configMap передадим переменные REACT_APP_USERNAME, REACT_APP_COMPANY_NAME.
+Получаем следующий файл `replica_set.yaml`: <br>
 ```yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: lab3
+
+---
+
 apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
@@ -58,17 +66,31 @@ spec:
             - name: REACT_APP_USERNAME
               valueFrom:
                 configMapKeyRef:
-                  name: react-app
+                  name: reactapp
                   key: REACT_APP_USERNAME
             - name: REACT_APP_COMPANY_NAME
               valueFrom:
                 configMapKeyRef:
-                  name: react-app
+                  name: reactapp
                   key: REACT_APP_COMPANY_NAME
-```
-![service](img/service_react.png) <br>
 
-### Включим minikube addons enable ingress и сгенерируем TLS сертификат, импортировать сертификат в minikube.
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-lab3
+  namespace: lab3
+spec:
+  selector:
+    app: react
+  ports:
+    - port: 3000
+      protocol: TCP
+      name: http
+  type: NodePort
+```
+
+### Включим minikube addons enable ingress и сгенерируем TLS сертификат, импортируем сертификат в minikube.
 ```console
 minikube addons enable ingress
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout tls.key -out tls.crt -subj "/CN=react.secret"
@@ -90,10 +112,11 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout tls.key -out tls.crt
 Таким образом, выполнение этой команды приведет к созданию самозаверяющего сертификата с указанными параметрами, включая закрытый ключ и сам сертификат, которые будут сохранены в файлах tls.key и tls.crt соответственно.<br>
 ![keys](img/keys.png) <br>
 ![cert_created](img/cert_created.png) <br>
+Проверим всё созданное<br>
+![check](img/check.png)
 
 
 ### Создадим ingress в minikube, где указан ранее импортированный сертификат, FQDN по которому мы будем заходить и имя сервиса который мы создали ранее.
-> Если вы делаете эту работу на Windows/macOS для доступа к ingress вам необходимо использовать команду minikube tunnel к созданному ingress. Если вы делаете эту работу на Windows/macOS для доступа к ingress вам необходимо в hosts добавить ip address localhost и ваш FQDN. Если установлен Linux, то нужно указывать minikube ip.
 ```yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
