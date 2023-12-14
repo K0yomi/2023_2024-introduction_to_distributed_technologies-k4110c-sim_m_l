@@ -66,9 +66,7 @@ kubectl calico delete ippools default-ipv4-ippool --allow-version-mismatch
 kubectl calico create -f calico.yml --allow-version-mismatch
 kubectl calico get ippool --allow-version-mismatch
 ```
-![calico_defeated](img/calico_defeated.jpg) <br>
-
-`kubectl apply -f manifesto.yaml` <br>
+![calicoctl_defeated](img/calicoctl_defeated.jpg) <br>
 
 +  Создадим deployment с 2 репликами контейнера ifilyaninitmo/itdt-contained-frontend:master и передадим переменные в эти реплики: REACT_APP_USERNAME, REACT_APP_COMPANY_NAME. 
 ```yaml
@@ -121,9 +119,9 @@ spec:
 `kubectl expose deployment react --type=NodePort --port=3000` <br>
 
 
-+ Запустить в minikube режим проброса портов и подключитесь к вашим контейнерам через веб браузер. <br>
++ Запустить в minikube режим проброса портов и подключитесь к нашим контейнерам через веб браузер. <br>
 `kubectl po	rt-forward services/react 3000:3000` <br>
-![ura](lab4/img/ura.png) <br>
+![ura](img/ura.png) <br>
 
 + Проверьте на странице в веб браузере переменные Container name и Container IP. Изменяются ли они? Если да то почему? <br>
 Переменные Container name и Container IP изменяются в зависисмости от того, на какой под попал запрос. <br>
